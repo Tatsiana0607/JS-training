@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Второй максимальный элемент массива</title>
+</head>
+<body>
+    <script>
+        var arr = [2, 6, -1, 7, 4, 45, 93, 23, 64, 12, 9, 4, 34, 6, -39, 21, 91, 1];
+        var max=arr[0];
+        var secMax = -Infinity;
+
+        arr.forEach(function(item){
+            if(item > max) {
+                secMax=max;
+                max=item;
+            }
+            if(item > secMax && item < max){
+                secMax=item;
+            }
+        });
+
+        if(secMax===-Infinity) alert("Второго максимального элемента нет");
+        else{
+            alert(max);
+            alert(secMax);
+        }
+
+    </script>
+</body>
+</html>
