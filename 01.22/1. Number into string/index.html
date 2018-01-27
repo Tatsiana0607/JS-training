@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Число прописью</title>
+</head>
+<body>
+<script>
+
+    do{
+        var number = prompt("Введите число от 1 до 999 999 999: ");
+    }while(!Number(number) || number.length > 9);
+
+    var units = {
+        1: 'один',
+        2: 'два',
+        3: 'три',
+        4: 'четыре',
+        5: 'пять',
+        6: 'шесть',
+        7: 'семь',
+        8: 'восемь',
+        9: 'девять'
+    };
+
+    var teens = {
+        10: 'десять',
+        11: 'одиннадцать',
+        12: 'двенадцать',
+        13: 'тринадцать',
+        14: 'четырнадцать',
+        15: 'пятнадцать',
+        16: 'шестнадцать',
+        17: 'семнадцать',
+        18: 'восемнадцать',
+        19: 'девятнадцать'
+    };
+
+    var tens = {
+        2: 'двадцать',
+        3: 'тридцать',
+        4: 'сорок',
+        5: 'пятьдесят',
+        6: 'шестьдесят',
+        7: 'семьдесят',
+        8: 'восемьдесят',
+        9: 'девяносто'
+    };
+
+    var hundreds = {
+        1: 'сто',
+        2: 'двести',
+        3: 'триста',
+        4: 'четыреста',
+        5: 'пятьсот',
+        6: 'шестьсот',
+        7: 'семьсот',
+        8: 'восемьсот',
+        9: 'девятьсот'
+    };
+
+    var classes = {
+        'thousands': {
+            1: "тысяча",
+            2: "тысячи",
+            3: "тысяч"
+        },
+        'millions': {
+            1: "миллион",
+            2: "миллиона",
+            3: "миллионов"
+        }
+    };
+
+    if(number==="0") alert("ноль");
+    else {
+        var digitsArray = transformToArray(number);
+        alert(toString(digitsArray));
+    }
+
+    //принимает введенное число (в виде строки), заполняет конец массива из 9 элементов цифрами этого числа
+    //(остальные элементы остаются undefined) и возвращает этот массив
+    function transformToArray(num){
+        var arr=[];
+        for(var i=0; i<num.length; i++){
+            arr[9-num.length+i]=Number(num[i]);
+        }
+        return arr;
+    }
+
+    //принимает массив из 9 элементов (undefined или цифр), возвращает значение числа прописью
+    function toString(digitsArray){
+        var result;
+
+        result = stringifyClass(digitsArray.slice(0,3),"millions")+" "
+        +stringifyClass(digitsArray.slice(3,6),"thousands")+" "
+        +stringifyClass(digitsArray.slice(6,9));
+
+        return result;
+    }
+
+    //принимает класс (3 цифры) и тип класса (тысячи, миллионы)
+    //возвращает значение класса прописью
+    function stringifyClass(classArray, classType){
+        var result="";
+
+        //если есть первая цифра, то ищем по ней название в хэше с сотнями
+        if(classArray[0]){
+            result+=hundreds[classArray[0]]
+        }
+
+        //по двум оставшимся ищем название в хэше teens
+        var teen = teens[""+classArray[1]+classArray[2]];
+        if(teen){
+            result+=" "+teen;
+        }
+        //если не находим, то рассматриваем 2 последние цифры отдельно (в хэше десятков и единиц)
+        else{
+            if(classArray[1]){
+                result+=" "+tens[classArray[1]]
+            }
+            if(classArray[2]){
+                result+=" "+units[classArray[2]]
+            }
+        }
+
+        //для класса тысяч меняем на женский род
+        if(classType==="thousands"){
+            result=result.replace(/один$/,"одна");
+            result=result.replace(/два$/,"две");
+        }
+
+        //добавляем название класса (тысячи или миллионы)
+        if(result && classType){
+            var className = classes[classType][defineClassCode(classArray)];
+            result+=" "+className;
+        }
+        return result;
+    }
+
+    //принимает класс (3 цифры), возращает цифровой код формы названия класса
+    function defineClassCode(classArray){
+        //в зависимости от того, есть ли 2-я цифра, получаем число либо из 2 последних цифр, либо из 1
+        var number=Number((classArray[1] ? classArray[1].toString() : "")+classArray[2]);
+
+        number=(number>19) ? number%10 : number;    //если число от 1 до 19, то берем его целиком
+                                                    //если число больше 19, то берем последнюю цифру
+
+        if(number===1) return 1;            //если цифра - 1, то код - 1 (тысяча, миллион)
+        if(number>1 && number<5) return 2;  //если цифра - 2, 3, 4, то код - 2 (тысячи, миллиона)
+        return 3;                           //если цифра - 5 или больше, то код - 3 (тысяч, миллионов)
+    }
+
+</script>
+</body>
+</html>
