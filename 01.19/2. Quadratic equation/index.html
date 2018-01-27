@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Решение квадратного уравнения</title>
+</head>
+<body>
+    <script>
+        alert("Решаем уравнение вида: ax^2 + bx + c");
+        var a = prompt("Введите a: ");
+        var b = prompt("Введите b: ");
+        var c = prompt("Введите c: ");
+
+        printResult();
+
+        function printResult(){
+            var arr = findSolution(a, b, c);
+            if(arr){
+                if(arr[0]===arr[1]){
+                    alert("Корень уравнения x = "+arr[0]);
+                }
+                else alert("Первый корень уравнения x1 = "+arr[0]+"\nВторой корень уравнения x2 = "+arr[1]);
+            }
+            else alert("Дискриминант меньше нуля. Уравнение не имеет решений.");
+        }
+
+        function findSolution(a, b, c){
+            var x1, x2;
+            var D = b*b-4*a*c;
+
+            if(D < 0) {
+                return undefined;
+            }
+            else if(D > 0){
+                x1 = (-b + Math.sqrt(D))/(2*a);
+                x2 = (-b - Math.sqrt(D))/(2*a);
+                return [x1, x2];
+            }
+            else {
+                x1 = x2 = -b /(2*a);
+                return [x1, x2];
+            }
+        }
+
+    </script>
+</body>
+</html>

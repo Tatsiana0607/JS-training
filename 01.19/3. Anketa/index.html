@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Анкета</title>
+</head>
+<body>
+    <script>
+
+        do{
+            var lastName = prompt("Ваша фамилия: ");
+        }while(!lastName);
+
+        do{
+            var firstName = prompt("Ваше имя: ");
+        }while(!firstName);
+
+        do{
+            var middleName = prompt("Ваше отчество: ");
+        }while(!middleName);
+
+        do{
+            var age = prompt("Ваш возраст: ");
+        }while(!Number(age) || age>150);
+
+        var sex = confirm("Вы мужчина?");
+
+        var result = `ваше ФИО: ${lastName} ${firstName} ${middleName}
+ваш возраст в годах: ${age}
+ваш возраст в днях: ${age*365}
+через 5 лет вам будет: ${(Number(age)+5)}
+ваш пол: ${(sex ? 'мужской' : 'женский')}
+вы на пенсии: ${((age>63 && sex)||(age>58 && !sex) ? 'да' : 'нет')}`;
+
+        alert(result);
+
+    </script>
+</body>
+</html>
