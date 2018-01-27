@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Сумма цифр числа</title>
+</head>
+<body>
+    <script>
+        var number = prompt("Введите число: ");
+
+        //способ 1
+        var sum1 = 0;
+        for(var i=0; i<number.length; i++){
+            sum1+=Number(number[i]);
+        }
+        alert("Сумма цифр числа: "+sum1);
+
+        //способ 2
+        var sum2 = 0;
+        var digit;
+        while(number > 0){
+            digit=number%10;
+            sum2+=digit;
+            number=Math.floor(number/10);
+        }
+        alert("Сумма цифр числа: "+sum2);
+    </script>
+</body>
+</html>
