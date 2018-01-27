@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Сумма цифр числа с помощью рекурсии</title>
+</head>
+<body>
+    <script>
+
+        var number = prompt("Введите число: ");
+
+        alert("Сумма цифр числа: "+countSum(number));
+
+        function countSum(num){
+            if(num<10) return num;
+            return num%10 + countSum(Math.floor(num/10));
+        }
+
+    </script>
+</body>
+</html>
