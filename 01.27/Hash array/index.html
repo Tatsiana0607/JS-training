@@ -23,7 +23,10 @@
                     {a:1}];
 
         var unique = findUnique(input);
+        var filtered = filter(unique, {a:1, b:1});
+
         console.log(unique);
+        console.log(filtered);
 
         //принимает массив объектов, возвращает массив уникальных объектов
         function findUnique(array) {
@@ -59,6 +62,27 @@
             return true;
         }
 
+
+        //принимает массив объектов, возвращает массив объектов, содержащих все свойства object
+        function filter(array, object) {
+            let result=[];
+            for(let i=0; i<array.length; i++){
+                if(contains(object, array[i])){
+                    result.push(array[i]);
+                }
+            }
+            return result;
+        }
+
+        //проверяет, содержит ли 2-й объект все свойства 1-го объекта
+        function contains(firstObject, secondObject) {
+            for(let key in firstObject){
+                if(firstObject[key]!==secondObject[key]) {
+                    return false;
+                }
+            }
+            return true;
+        }
 
         // function print(obj) {
         //     var str='';
