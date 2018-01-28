@@ -25,8 +25,8 @@
         var unique = findUnique(input);
         var filtered = filter(unique, {a:1, b:1});
 
-        console.log(unique);
-        console.log(filtered);
+        alert("Массив уникальных объектов:\n"+print(unique));
+        alert("Отфильтрованный массив:\n"+print(filtered));
 
         //принимает массив объектов, возвращает массив уникальных объектов
         function findUnique(array) {
@@ -84,13 +84,18 @@
             return true;
         }
 
-        // function print(obj) {
-        //     var str='';
-        //     for(var key in obj){
-        //         str+=key +":"+obj[key]+" ";
-        //     }
-        //     return str;
-        // }
+        //перевод массива объектов в строку для вывода
+        function print(array) {
+            let str='';
+            for(let i=0; i<array.length; i++){
+                let object=array[i];
+                for(let key in object){
+                    str+=key +":"+object[key]+" ";
+                }
+                str+='\n';
+            }
+            return str;
+        }
     </script>
 </body>
 </html>
