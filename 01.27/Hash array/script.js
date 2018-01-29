@@ -94,13 +94,9 @@ function find() {
 
     //принимает массив объектов, возвращает массив объектов, содержащих все свойства object
     function filter(array, object) {
-        let result=[];
-        for(let i=0; i<array.length; i++){
-            if(contains(object, array[i])){
-                result.push(array[i]);
-            }
-        }
-        return result;
+        return array.filter(function (item) {
+           return contains(object, item);
+        });
 
         //проверяет, содержит ли 2-й объект все свойства 1-го объекта
         function contains(firstObject, secondObject) {
