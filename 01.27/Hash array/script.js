@@ -41,16 +41,18 @@ function findUnique(array) {
     //проверяет наличие объекта object в массиве result
     function hasElement(object) {
         for(let i=0; i<result.length; i++){
-            if(equals(result[i], object))
+            if(equals(result[i], object)){
                 return true;
+            }
         }
         return false;
 
         //сравнивает два объекта
         function equals(firstObject, secondObject) {
 
-            if(Object.keys(firstObject).length!==Object.keys(secondObject).length)
+            if(Object.keys(firstObject).length!==Object.keys(secondObject).length){
                 return false;
+            }
 
             for(let key in firstObject){
                 if(firstObject[key]!==secondObject[key]) {
@@ -78,10 +80,14 @@ function printTable(array) {
 
     for (let i = 0; i < array.length; i++) {
         let tr = document.createElement('tr');
-        if(i%2!==0) tr.setAttribute('class', 'grey');
+        if(i%2!==0) {
+            tr.setAttribute('class', 'grey');
+        }
         for (let key2 in headers) {
             let value = array[i][key2];
-            if(value===undefined) value='-';
+            if(value===undefined) {
+                value='-';
+            }
             tr.insertAdjacentHTML("beforeend", "<td>" + value + "</td>");
         }
         document.getElementsByTagName('tbody')[0].appendChild(tr);
