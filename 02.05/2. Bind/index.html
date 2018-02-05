@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Метод bind</title>
+</head>
+<body>
+    <script>
+
+        function sum() {
+            let result = this.sum;
+            for(let i=0; i<arguments.length; i++){
+                result+=arguments[i];
+            }
+            alert(result);
+        }
+
+        function bind(func, context, array) {
+            return function() {
+                let args = [].slice.call(arguments);
+                return func.apply(context, array.concat(args));
+            };
+        }
+
+        let wrapper = bind(sum, {sum: 0}, [42,8]);
+        wrapper(67,3); // 0 + 42 + 8 + 67 + 3 = 120
+
+    </script>
+</body>
+</html>
