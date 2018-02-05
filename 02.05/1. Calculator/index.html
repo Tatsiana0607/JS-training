@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Калькулятор</title>
+</head>
+<body>
+    <script>
+        let calculator = {
+            result: 0,
+            start: function (value) {
+                result = value || 0;
+                return this;
+            },
+            add: function (value) {
+                result+=value;
+                return this;
+            },
+            subtract: function (value) {
+                result-=value;
+                return this;
+            },
+            multiply: function (value) {
+                result*=value;
+                return this;
+            },
+            divide: function (value) {
+                if(value===0){
+                    throw "Деление на ноль";
+                }
+                result/=value;
+                return this;
+            },
+            showResult: function () {
+                console.log(result);
+                return this;
+            }
+        };
+
+        try {
+            calculator.start(10).multiply(2).add(42).divide(0).subtract(9).showResult(); //деление на ноль
+        }
+        catch(error){
+            console.error(error);
+        }
+
+        calculator.start(10).multiply(2).add(42).divide(5).subtract(9).showResult(); //3.4
+        calculator.start(0).multiply(2).add(42).divide(7).subtract(9).showResult(); //-3
+        calculator.start(0).multiply(2).add(42).divide(7).subtract(9).showResult().add(5).showResult(); //-3  2
+
+    </script>
+</body>
+</html>
