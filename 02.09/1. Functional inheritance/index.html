@@ -14,19 +14,21 @@
     }
 
     function Rectangle(a,b){
-        const name="Прямоугольник";
         Shape.call(this);
-        // this.setA = function(a){
-        //     this.a=a;
-        // };
-        // this.setB = function(b){
-        //     this.b=b;
-        // };
+        const name="Прямоугольник";
+        this.a=a;
+        this.b=b;
+        this.setA = function(a){
+            this.a=a;
+        };
+        this.setB = function(b){
+            this.b=b;
+        };
         this.getA = function(){
-            return a;
+            return this.a;
         };
         this.getB = function(){
-            return b;
+            return this.b;
         };
         const parentGetName = this.getName;
         this.getName = function(){
@@ -34,53 +36,45 @@
             return fig + name;
         };
         this.getArea = function(){
-            return a*b;
+            return this.a * this.b;
         };
         this.getPerimeter = function(){
-            return (a+b)*2;
+            return (this.a + this.b)*2;
         };
     }
 
     function Square(a){
-        const name="Квадрат";
         Rectangle.call(this);
+        const name="Квадрат";
+        this.a=a;
         this.getName = function(){
             return "Фигура " + name;
         };
-        // this.setA = function(a){
-        //     this.a=a;
-        // };
-        this.getA = function(){
-            return a;
-        };
         this.getArea = function(){
-            return a*a;
+            return this.a * this.a;
         };
         this.getPerimeter = function(){
-            return a*4;
+            return this.a * 4;
         };
     }
 
     let shape = new Shape();
-    let name = shape.getName();
-    console.log(name);
+    console.log(`${shape.getName()}`);
 
-    let rect = new Rectangle(5,7);
-    name = rect.getName();
-    let a = rect.getA();
-    let b = rect.getB();
-    console.log(`${name} со сторонами ${a} и ${b}`);
-    let area = rect.getArea();
-    let per = rect.getPerimeter();
-    console.log(`Площадь: ${area}, периметр: ${per}`);
+    let rect = new Rectangle(9,7);
+    console.log(`${rect.getName()} со сторонами ${rect.getA()} и ${rect.getB()}`);
+    console.log(`Площадь: ${rect.getArea()}, периметр: ${rect.getPerimeter()}`);
+    rect.setA(2);
+    rect.setB(3);
+    console.log(`${rect.getName()} со сторонами ${rect.getA()} и ${rect.getB()}`);
+    console.log(`Площадь: ${rect.getArea()}, периметр: ${rect.getPerimeter()}`);
 
     let square = new Square(3);
-    name = square.getName();
-    a = square.getA();
-    console.log(`${name} со стороной ${a}`);
-    area = square.getArea();
-    per = square.getPerimeter();
-    console.log(`Площадь: ${area}, периметр: ${per}`);
+    console.log(`${square.getName()} со стороной ${square.getA()}`);
+    console.log(`Площадь: ${square.getArea()}, периметр: ${square.getPerimeter()}`);
+    square.setA(5);
+    console.log(`${square.getName()} со стороной ${square.getA()}`);
+    console.log(`Площадь: ${square.getArea()}, периметр: ${square.getPerimeter()}`);
 
 </script>
 </body>
