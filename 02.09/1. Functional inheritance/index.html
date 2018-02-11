@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Функциональное наследование</title>
+</head>
+<body>
+<script>
+    function Shape(){
+        const name="Фигура ";
+        this.getName = function(){
+            return name;
+        }
+    }
+
+    function Rectangle(a,b){
+        const name="Прямоугольник";
+        Shape.call(this);
+        // this.setA = function(a){
+        //     this.a=a;
+        // };
+        // this.setB = function(b){
+        //     this.b=b;
+        // };
+        this.getA = function(){
+            return a;
+        };
+        this.getB = function(){
+            return b;
+        };
+        const parentGetName = this.getName;
+        this.getName = function(){
+            const fig = parentGetName.call(this);
+            return fig + name;
+        };
+        this.getArea = function(){
+            return a*b;
+        };
+        this.getPerimeter = function(){
+            return (a+b)*2;
+        };
+    }
+
+    function Square(a){
+        const name="Квадрат";
+        Rectangle.call(this);
+        this.getName = function(){
+            return "Фигура " + name;
+        };
+        // this.setA = function(a){
+        //     this.a=a;
+        // };
+        this.getA = function(){
+            return a;
+        };
+        this.getArea = function(){
+            return a*a;
+        };
+        this.getPerimeter = function(){
+            return a*4;
+        };
+    }
+
+    let shape = new Shape();
+    let name = shape.getName();
+    console.log(name);
+
+    let rect = new Rectangle(5,7);
+    name = rect.getName();
+    let a = rect.getA();
+    let b = rect.getB();
+    console.log(`${name} со сторонами ${a} и ${b}`);
+    let area = rect.getArea();
+    let per = rect.getPerimeter();
+    console.log(`Площадь: ${area}, периметр: ${per}`);
+
+    let square = new Square(3);
+    name = square.getName();
+    a = square.getA();
+    console.log(`${name} со стороной ${a}`);
+    area = square.getArea();
+    per = square.getPerimeter();
+    console.log(`Площадь: ${area}, периметр: ${per}`);
+
+</script>
+</body>
+</html>
