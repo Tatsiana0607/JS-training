@@ -7,10 +7,9 @@
 <body>
 <script>
     function Shape(){
-        this.name="Фигура ";
     }
     Shape.prototype.getName = function(){
-        return this.name;
+        return "Фигура ";
     };
 
 
@@ -34,7 +33,7 @@
         return this.b;
     };
     Rectangle.prototype.getName = function() {
-        return "Фигура " + this.name;
+        return Shape.prototype.getName() + this.name;
     };
     Rectangle.prototype.getArea = function(){
         return this.a * this.b;
