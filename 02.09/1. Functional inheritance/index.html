@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Функциональное наследование</title>
+</head>
+<body>
+<script>
+    function Shape(){
+        const name="Фигура ";
+        this.getName = function(){
+            return name;
+        }
+    }
+
+    function Rectangle(a,b){
+        Shape.call(this);
+        const name="Прямоугольник";
+        this.a=a;
+        this.b=b;
+        this.setA = function(a){
+            this.a=a;
+        };
+        this.setB = function(b){
+            this.b=b;
+        };
+        this.getA = function(){
+            return this.a;
+        };
+        this.getB = function(){
+            return this.b;
+        };
+        const parentGetName = this.getName;
+        this.getName = function(){
+            const fig = parentGetName.call(this);
+            return fig + name;
+        };
+        this.getArea = function(){
+            return this.a * this.b;
+        };
+        this.getPerimeter = function(){
+            return (this.a + this.b)*2;
+        };
+    }
+
+    function Square(a){
+        Rectangle.call(this);
+        const name="Квадрат";
+        this.a=a;
+        this.getName = function(){
+            return "Фигура " + name;
+        };
+        this.getArea = function(){
+            return this.a * this.a;
+        };
+        this.getPerimeter = function(){
+            return this.a * 4;
+        };
+    }
+
+    let shape = new Shape();
+    console.log(`${shape.getName()}`);
+
+    let rect = new Rectangle(9,7);
+    console.log(`${rect.getName()} со сторонами ${rect.getA()} и ${rect.getB()}`);
+    console.log(`Площадь: ${rect.getArea()}, периметр: ${rect.getPerimeter()}`);
+    rect.setA(2);
+    rect.setB(3);
+    console.log(`${rect.getName()} со сторонами ${rect.getA()} и ${rect.getB()}`);
+    console.log(`Площадь: ${rect.getArea()}, периметр: ${rect.getPerimeter()}`);
+
+    let square = new Square(3);
+    console.log(`${square.getName()} со стороной ${square.getA()}`);
+    console.log(`Площадь: ${square.getArea()}, периметр: ${square.getPerimeter()}`);
+    square.setA(5);
+    console.log(`${square.getName()} со стороной ${square.getA()}`);
+    console.log(`Площадь: ${square.getArea()}, периметр: ${square.getPerimeter()}`);
+
+</script>
+</body>
+</html>
