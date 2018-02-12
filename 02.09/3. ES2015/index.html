@@ -8,10 +8,10 @@
     <script>
         class Shape{
             constructor() {
-                this.name = "Фигура";
+                // this.name = "Фигура";
             }
             get fullName() {
-                return this.name;
+                return "Фигура ";
             }
         }
 
@@ -23,7 +23,7 @@
                 this.b=b;
             }
             get fullName() {
-                return "Фигура " + this.name;
+                return super.fullName + this.name;
             }
             get A() {
                 return this.a;
