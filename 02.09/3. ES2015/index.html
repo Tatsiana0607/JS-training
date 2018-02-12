@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Наследование в ES2015</title>
+</head>
+<body>
+    <script>
+        class Shape{
+            constructor() {
+                this.name = "Фигура";
+            }
+            get fullName() {
+                return this.name;
+            }
+        }
+
+        class Rectangle extends Shape {
+            constructor(a,b) {
+                super();
+                this.name="прямоугольник";
+                this.a=a;
+                this.b=b;
+            }
+            get fullName() {
+                return "Фигура " + this.name;
+            }
+            get A() {
+                return this.a;
+            }
+            get B() {
+                return this.b;
+            }
+            get area() {
+                return this.a * this.b;
+            }
+            get perimeter() {
+                return (this.a + this.b) * 2;
+            }
+            set A(a) {
+                this.a=a;
+            }
+            set B(b) {
+                this.b=b;
+            }
+        }
+
+        class Square extends Rectangle {
+            constructor(a) {
+                super();
+                this.name="квадрат";
+                this.a=a;
+            }
+            get area() {
+                return this.a * this.a;
+            }
+            get perimeter() {
+                return this.a * 4;
+            }
+        }
+
+        let shape = new Shape();
+        console.log(`${shape.fullName}`);
+
+        let rect = new Rectangle(9,7);
+        console.log(`${rect.fullName} со сторонами ${rect.A} и ${rect.B}`);
+        console.log(`Площадь: ${rect.area}, периметр: ${rect.perimeter}`);
+        rect.A=2;
+        rect.B=3;
+        console.log(`${rect.fullName} со сторонами ${rect.A} и ${rect.B}`);
+        console.log(`Площадь: ${rect.area}, периметр: ${rect.perimeter}`);
+
+        let square = new Square(3);
+        console.log(`${square.fullName} со стороной ${square.A}`);
+        console.log(`Площадь: ${square.area}, периметр: ${square.perimeter}`);
+        square.A=5;
+        console.log(`${square.fullName} со стороной ${square.A}`);
+        console.log(`Площадь: ${square.area}, периметр: ${square.perimeter}`);
+
+    </script>
+</body>
+</html>
