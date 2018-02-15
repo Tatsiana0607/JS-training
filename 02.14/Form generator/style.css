@@ -1,0 +1,12 @@
+body{
+    font-family: Arial;
+    margin: 20px;
+}
+
+tr > td:nth-of-type(1){
+    width: 170px;
+}
+
+hr{
+    margin: 30px 0 10px;
+}
