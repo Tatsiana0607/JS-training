@@ -28,76 +28,57 @@ function createForm(arr){
     form.setAttribute('method','POST');
     form.setAttribute('action','http://fe.it-academy.by/TestForm.php');
     form.setAttribute('target','_blank');
-    let table = document.createElement('table');
     document.body.appendChild(hr);
     document.body.appendChild(form);
-    form.appendChild(table);
 
     for(let i=0; i<arr.length; i++){
-        let tr = document.createElement('tr');
+        let div = document.createElement('div');
 
-        if(arr[i].kind!=='submit' && arr[i].kind!=='memo'){
-            let label = document.createElement('label');
-            let text = document.createTextNode(arr[i].label);
-            label.appendChild(text);
-            let td1 = document.createElement('td');
-            td1.appendChild(label);
-            tr.appendChild(td1);
+        if(arr[i].kind!=='submit'){
+            div.appendChild(createLabel(arr[i]));
         }
 
-        let td2 = document.createElement('td');
         switch(arr[i].kind){
             case 'longtext':
-                td2.appendChild(createLongText(arr[i]));
+                div.appendChild(createInput(arr[i], 60));
                 break;
             case 'shorttext':
-                td2.appendChild(createShortText(arr[i]));
+                div.appendChild(createInput(arr[i], 25));
                 break;
             case 'number':
-                td2.appendChild(createNumber(arr[i]));
+                div.appendChild(createInput(arr[i], 7));
                 break;
             case 'combo':
-                td2.appendChild(createCombo(arr[i]));
+                div.appendChild(createCombo(arr[i]));
                 break;
             case 'radio':
-                td2.appendChild(createRadio(arr[i]));
+                div.appendChild(createRadio(arr[i]));
                 break;
             case 'check':
-                td2.appendChild(createCheck(arr[i]));
+                div.appendChild(createCheck(arr[i]));
                 break;
             case 'memo':
-                td2.setAttribute('colspan','2');
-                td2.appendChild(createMemo(arr[i]));
+                div.appendChild(createMemo(arr[i]));
                 break;
             case 'submit':
-                td2.appendChild(createSubmit(arr[i]));
+                div.appendChild(createSubmit(arr[i]));
                 break;
         }
-        tr.appendChild(td2);
-        table.appendChild(tr);
+        form.appendChild(div);
     }
 
-    function createLongText(item){
+    function createLabel(item) {
+        let label = document.createElement('label');
+        let text = document.createTextNode(item.label);
+        label.appendChild(text);
+        return label;
+    }
+
+    function createInput(item, size){
         let input = document.createElement('input');
         input.setAttribute('type','text');
         input.setAttribute('name',item.name);
-        input.setAttribute('size','60');
-        return input;
-    }
-
-    function createShortText(item){
-        let input = document.createElement('input');
-        input.setAttribute('type','text');
-        input.setAttribute('name',item.name);
-        input.setAttribute('size','25');
-        return input;
-    }
-
-    function createNumber(item){
-        let input = document.createElement('input');
-        input.setAttribute('type','text');
-        input.setAttribute('name',item.name);
-        input.setAttribute('size','7');
+        input.setAttribute('size',size.toString());
         return input;
     }
 
@@ -141,16 +122,12 @@ function createForm(arr){
     }
 
     function createMemo(item){
-        let label = document.createElement('label');
-        let text = document.createTextNode(item.label);
-        label.appendChild(text);
         let textarea = document.createElement('textarea');
         textarea.setAttribute('name',item.name);
         textarea.setAttribute('cols','87');
         textarea.setAttribute('rows','3');
         let input = document.createElement('span');
         let br = document.createElement('br');
-        input.appendChild(label);
         input.appendChild(br);
         input.appendChild(textarea);
         return input;
