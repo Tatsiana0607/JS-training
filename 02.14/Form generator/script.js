@@ -2,11 +2,11 @@ var formDef1=
     [
         {label:'Разработчики:',kind:'longtext',name:'developers', validation:'required'},
         {label:'Название сайта:',kind:'longtext',name:'sitename', validation:'required'},
-        {label:'URL сайта:',kind:'longtext',name:'siteurl', validation:'required, url'},
-        {label:'Дата запуска сайта:',kind:'date',name:'date', validation:'required, date'},
-        {label:'Посетителей в сутки:',kind:'number',name:'visitors', validation:'required, number'},
-        {label:'E-mail для связи:',kind:'shorttext',name:'email', validation:'required, email'},
-        {label:'Рубрика каталога:',kind:'combo',name:'division', validation:'required, combo',
+        {label:'URL сайта:',kind:'longtext',name:'siteurl', validation:'url required'},
+        {label:'Дата запуска сайта:',kind:'date',name:'date', validation:'date required'},
+        {label:'Посетителей в сутки:',kind:'number',name:'visitors', validation:'number required'},
+        {label:'E-mail для связи:',kind:'shorttext',name:'email', validation:'email required'},
+        {label:'Рубрика каталога:',kind:'combo',name:'division', validation:'combo required',
             variants:[{text:'здоровье',value:1},{text:'домашний уют',value:2},{text:'бытовая техника',value:3}]},
         {label:'Размещение:',kind:'radio',name:'payment', validation:'radio',
             variants:[{text:'бесплатное',value:1},{text:'платное',value:2},{text:'VIP',value:3}]},
@@ -20,7 +20,7 @@ var formDef2=
         {label:'Фамилия:',kind:'longtext',name:'lastname', validation:'required'},
         {label:'Имя:',kind:'longtext',name:'firstname', validation:'required'},
         {label:'Отчество:',kind:'longtext',name:'secondname', validation:'required'},
-        {label:'Возраст:',kind:'number',name:'age', validation:'required, number'},
+        {label:'Возраст:',kind:'number',name:'age', validation:'number required'},
         {label:'Зарегистрироваться:',kind:'submit'},
     ];
 
@@ -29,7 +29,7 @@ const map = {   required: {func: validateRequired, message: 'Заполните 
                 url:      {func: validateURL, message: 'Неверный формат URL!'},
                 email:    {func: validateEmail, message: 'Неверный формат E-mail!'},
                 date:     {func: validateDate, message: 'Некорректная дата!'},
-                number:   {func: validateNumber, message: 'Отрицательное число!'},
+                number:   {func: validateNumber, message: 'Некорректное число!'},
                 combo:    {func: validateCombo, message: 'Выберите один из вариантов!'},
                 radio:    {func: validateRadio, message: 'Выберите один из вариантов!'}};
 
@@ -90,21 +90,31 @@ function createForm(arr){
                 break;
         }
         form.appendChild(div);
+    }
 
-        //навешиваем обработчики
-        let elements = document.querySelectorAll('[data-validation]');
-        for(let i=0; i<elements.length; i++){
-            let attr = elements[i].getAttribute('data-validation').split(", ");
-            for(let j=0; j<attr.length; j++){
-                elements[i].addEventListener("change", function (event) {
-                    elements[i].nextSibling.innerText = "";
-                    if(!map[attr[j]].func(event.currentTarget.value)){
-                        console.log(event.currentTarget);
-                        elements[i].nextSibling.innerText = map[attr[j]].message;
-                    }
-                });
+    //навешиваем обработчики
+    let elements = form.querySelectorAll('[data-validation]');
+    for (let i = 0; i < elements.length; i++) {
+        let attr = elements[i].getAttribute('data-validation').split(" ");
+        elements[i].addEventListener("change", function (event) {
+            let isValid = true;
+            let value;
+
+            for (let j = 0; j < attr.length; j++) {
+                if(attr[j] === "radio"){
+
+                    value = form[elements[i]["id"]].value;
+                } else value = event.currentTarget.value;
+
+                if (!map[attr[j]].func(value)) {
+                    elements[i].nextSibling.innerText = map[attr[j]].message;
+                    isValid = false;
+                }
             }
-        }
+            if (isValid) {
+                elements[i].nextSibling.innerText = "";
+            }
+        });
     }
 
     //создание элементов формы
@@ -163,6 +173,7 @@ function createForm(arr){
 
     function createRadio(item){
         let input = document.createElement('span');
+        input.setAttribute('id',item.name);
         input.setAttribute('data-validation',item.validation);
         for(let i=0; i<item.variants.length; i++){
             let radio = document.createElement('input');
@@ -242,14 +253,8 @@ function validateCombo(value) {
     return value!=='0';
 }
 
-function validateRadio() {
-    let radioArr = document.querySelectorAll('[id^=radio]');
-    for(let i=0; i<radioArr.length; i++){
-        if(radioArr.checked){
-            return true;
-        }
-    }
-    return false;
+function validateRadio(value) {
+    return value.length !== 0;
 }
 
 
@@ -263,10 +268,11 @@ function validateForm(event) {
 
     let elements = parent.querySelectorAll('[data-validation]');
     let change = new Event("change");
-    for(let i=0; i<elements.length; i++){
+    for(let i=elements.length-1; i>=0; i--){
         elements[i].dispatchEvent(change);
         if(elements[i].nextSibling.innerText !== ''){
             event.preventDefault();
+            elements[i].focus();
         }
     }
 }
