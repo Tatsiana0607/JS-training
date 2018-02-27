@@ -6,7 +6,7 @@ var formDef1=
         {label:'Дата запуска сайта:',kind:'date',name:'date', validation:'date required'},
         {label:'Посетителей в сутки:',kind:'number',name:'visitors', validation:'number required'},
         {label:'E-mail для связи:',kind:'shorttext',name:'email', validation:'email required'},
-        {label:'Рубрика каталога:',kind:'combo',name:'division', validation:'combo required',
+        {label:'Рубрика каталога:',kind:'combo',name:'division', validation:'combo',
             variants:[{text:'здоровье',value:1},{text:'домашний уют',value:2},{text:'бытовая техника',value:3}]},
         {label:'Размещение:',kind:'radio',name:'payment', validation:'radio',
             variants:[{text:'бесплатное',value:1},{text:'платное',value:2},{text:'VIP',value:3}]},
@@ -102,8 +102,7 @@ function createForm(arr){
 
             for (let j = 0; j < attr.length; j++) {
                 if(attr[j] === "radio"){
-
-                    value = form[elements[i]["id"]].value;
+                    value = form[elements[i].firstChild.name].value;
                 } else value = event.currentTarget.value;
 
                 if (!map[attr[j]].func(value)) {
@@ -173,7 +172,6 @@ function createForm(arr){
 
     function createRadio(item){
         let input = document.createElement('span');
-        input.setAttribute('id',item.name);
         input.setAttribute('data-validation',item.validation);
         for(let i=0; i<item.variants.length; i++){
             let radio = document.createElement('input');
@@ -256,8 +254,6 @@ function validateCombo(value) {
 function validateRadio(value) {
     return value.length !== 0;
 }
-
-
 
 function validateForm(event) {
     let btn = event.currentTarget;
