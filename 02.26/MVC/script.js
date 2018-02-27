@@ -1,3 +1,29 @@
+var clockArr = document.getElementsByClassName("clock");
+
+for(let i=0; i<clockArr.length; i++){
+    drawSegments(clockArr[i]);
+}
+
+function drawSegments(clock) {
+    for(let i=1; i<=12; i++){
+        let segment = document.createElement('div');
+        segment.setAttribute("class", "segment");
+        let num = document.createTextNode(i.toString());
+        segment.appendChild(num);
+        clock.appendChild(segment);
+        let cos = Math.cos(toRadians(30*(i-3)))*80;
+        let sin = Math.sin(toRadians(30*(i-3)))*80;
+        segment.style.transform = "translate("+cos+"px,"+sin+"px)";
+    }
+}
+
+function toRadians(degrees) {
+    return degrees * (Math.PI/180);
+}
+
+
+
+
 function TimeModel() {
 
     this.hours = null;
@@ -18,11 +44,6 @@ function TimeModel() {
         this.seconds = seconds;
     };
 
-    this.updateView = function () {
-        if ( myView )
-            myView.update();
-    };
-
     this.tick = function () {
         this.seconds += 1;
         if(this.seconds > 59){
@@ -37,7 +58,13 @@ function TimeModel() {
             this.hours=0;
         }
         this.updateView();
-    }
+    };
+
+    this.updateView = function () {
+        if (myView){
+            myView.update();
+        }
+    };
 }
 
 
@@ -94,6 +121,7 @@ function TimeController() {
         clearInterval(id);
     };
 }
+
 
 var timeModel1 = new TimeModel();
 var timeView1 = new TimeView();
