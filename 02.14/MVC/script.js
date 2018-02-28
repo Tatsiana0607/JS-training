@@ -1,4 +1,4 @@
-var clockArr = document.getElementsByClassName("clock");
+let clockArr = document.getElementsByClassName("clock");
 
 for(let i=0; i<clockArr.length; i++){
     drawSegments(clockArr[i]);
@@ -22,8 +22,6 @@ function toRadians(degrees) {
 }
 
 
-
-
 function TimeModel() {
 
     this.hours = null;
@@ -38,10 +36,13 @@ function TimeModel() {
         myTimezone = timezone;
     };
 
-    this.setTime = function (hours, minutes, seconds) {
-        this.hours = (hours+myTimezone>23) ? hours+myTimezone-24 : hours+myTimezone;
-        this.minutes = minutes;
-        this.seconds = seconds;
+    this.setTime = function (date) {
+        this.hours = date.getUTCHours()+myTimezone;
+        if(this.hours>23){
+            this.hours -=24;
+        }
+        this.minutes = date.getUTCMinutes();
+        this.seconds = date.getUTCSeconds();
     };
 
     this.tick = function () {
@@ -69,11 +70,11 @@ function TimeModel() {
 
 
 function TimeView() {
-    var myModel = null;
-    var myField = null;
-    var hoursDiv = null;
-    var minutesDiv = null;
-    var secondsDiv = null;
+    let myModel = null;
+    let myField = null;
+    let hoursDiv = null;
+    let minutesDiv = null;
+    let secondsDiv = null;
 
     this.start=function(model,field) {
         myModel = model;
@@ -93,17 +94,17 @@ function TimeView() {
 
 
 function TimeController() {
-    var myModel = null;
-    var myField = null;
-    var id;
+    let myModel = null;
+    let myField = null;
+    let id;
 
     this.start=function(model,field) {
         myModel = model;
         myField = field;
 
-        var buttonStart = myField.querySelector(".start");
+        let buttonStart = myField.querySelector(".start");
         buttonStart.addEventListener("click", this.startClock);
-        var buttonStop = myField.querySelector(".stop");
+        let buttonStop = myField.querySelector(".stop");
         buttonStop.addEventListener("click", this.stopClock);
 
         this.startClock();
@@ -111,10 +112,14 @@ function TimeController() {
 
     this.startClock = function () {
         let date = new Date();
-        myModel.setTime(date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
+        myModel.setTime(date);
+        if(id){
+            clearInterval(id);
+        }
         id = setInterval(function(){
             myModel.tick();
         }, 1000);
+
     };
 
     this.stopClock = function () {
@@ -122,80 +127,23 @@ function TimeController() {
     };
 }
 
+function createInstance(timezone, field) {
+    let timeModel = new TimeModel();
+    let timeView = new TimeView();
+    let timeController = new TimeController();
 
-var timeModel1 = new TimeModel();
-var timeView1 = new TimeView();
-var timeController1 = new TimeController();
+    let currentField = document.getElementById(field);
 
-var field1 = document.getElementById("field1");
+    timeModel.start(timeView, timezone);
+    timeView.start(timeModel, currentField);
+    timeController.start(timeModel, currentField);
 
-timeModel1.start(timeView1, -5);
-timeView1.start(timeModel1, field1);
-timeController1.start(timeModel1, field1);
+    timeModel.updateView();
+}
 
-timeModel1.updateView();
-
-
-var timeModel2 = new TimeModel();
-var timeView2 = new TimeView();
-var timeController2 = new TimeController();
-
-var field2 = document.getElementById("field2");
-
-timeModel2.start(timeView2, 0);
-timeView2.start(timeModel2, field2);
-timeController2.start(timeModel2, field2);
-
-timeModel2.updateView();
-
-
-var timeModel3 = new TimeModel();
-var timeView3 = new TimeView();
-var timeController3 = new TimeController();
-
-var field3 = document.getElementById("field3");
-
-timeModel3.start(timeView3, 1);
-timeView3.start(timeModel3, field3);
-timeController3.start(timeModel3, field3);
-
-timeModel3.updateView();
-
-
-var timeModel4 = new TimeModel();
-var timeView4 = new TimeView();
-var timeController4 = new TimeController();
-
-var field4 = document.getElementById("field4");
-
-timeModel4.start(timeView4, 3);
-timeView4.start(timeModel4, field4);
-timeController4.start(timeModel4, field4);
-
-timeModel4.updateView();
-
-
-var timeModel5 = new TimeModel();
-var timeView5 = new TimeView();
-var timeController5 = new TimeController();
-
-var field5 = document.getElementById("field5");
-
-timeModel5.start(timeView5, 9);
-timeView5.start(timeModel5, field5);
-timeController5.start(timeModel5, field5);
-
-timeModel5.updateView();
-
-
-var timeModel6 = new TimeModel();
-var timeView6 = new TimeView();
-var timeController6 = new TimeController();
-
-var field6 = document.getElementById("field6");
-
-timeModel6.start(timeView6, 10);
-timeView6.start(timeModel6, field6);
-timeController6.start(timeModel6, field6);
-
-timeModel6.updateView();
+createInstance(-5, "field1");
+createInstance(0, "field2");
+createInstance(1, "field3");
+createInstance(3, "field4");
+createInstance(9, "field5");
+createInstance(10, "field6");
